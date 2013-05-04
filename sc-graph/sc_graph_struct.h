@@ -51,5 +51,13 @@ sc_result sc_graph_check_arc(sc_addr graph, sc_addr arc);
  */
 sc_result sc_graph_check_element(sc_addr graph, sc_addr element);
 
+/*! Check if two graph elements connected with any arc
+ * \param graph sc-addr of graph structure for check
+ * \param v1 Element where checked arc starts
+ * \param v2 Element where checked arc ends
+ * \return If arc between \p v1 and \p v2 exist, then return SC_RESULT_OK; otherwise return error code
+ */
+sc_result sc_graph_check_elements_adjacency(sc_addr graph, sc_addr v1, sc_addr v2);
+
 
 #endif // _sc_graph_struct_h_

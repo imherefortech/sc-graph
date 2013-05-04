@@ -26,6 +26,7 @@ bool TestGraphModify::run()
     PREPARE_SUBTESTS();
     RUN_SUBTEST(check_vertex_creation, "Create vertex");
     RUN_SUBTEST(check_arc_creation, "Create arc");
+    RUN_SUBTEST(check_adjacency, "Elements adjacency");
 
     return SUBTESTS_RESULT;
 }
@@ -77,4 +78,31 @@ bool TestGraphModify::check_arc_creation()
     sc_iterator5_free(it5);
 
     return count == 1;
+}
+
+bool TestGraphModify::check_adjacency()
+{
+    assert(SC_ADDR_IS_NOT_EMPTY(mGraphAddr));
+
+    sc_addr v1, v2, v3, arc;
+
+    if (sc_graph_create_vertex(mGraphAddr, &v1) != SC_RESULT_OK)
+        return false;
+    if (sc_graph_create_vertex(mGraphAddr, &v2) != SC_RESULT_OK)
+        return false;
+    if (sc_graph_create_vertex(mGraphAddr, &v3) != SC_RESULT_OK)
+        return false;
+    if (sc_graph_create_arc(mGraphAddr, v1, v2, &arc) != SC_RESULT_OK)
+        return false;
+
+    if (sc_graph_check_elements_adjacency(mGraphAddr, v1, v2) != SC_RESULT_OK)
+        return false;
+
+    if (sc_graph_check_elements_adjacency(mGraphAddr, v1, v3) == SC_RESULT_OK)
+        return false;
+
+    if (sc_graph_check_elements_adjacency(mGraphAddr, v2, v3) == SC_RESULT_OK)
+        return false;
+
+    return true;
 }

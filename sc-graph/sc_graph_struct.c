@@ -85,3 +85,26 @@ sc_result sc_graph_check_element(sc_addr graph, sc_addr element)
 
     return SC_RESULT_ERROR;
 }
+
+sc_result sc_graph_check_elements_adjacency(sc_addr graph, sc_addr v1, sc_addr v2)
+{
+    if (sc_graph_check_element(graph, v1) != SC_RESULT_OK)
+        return SC_RESULT_ERROR_INVALID_PARAMS;
+
+    if (sc_graph_check_element(graph, v2) != SC_RESULT_OK)
+        return SC_RESULT_ERROR_INVALID_PARAMS;
+
+    // todo check for non-orient graphs
+    sc_iterator5 *it5 = sc_iterator5_f_a_f_a_f_new(v1,
+                                                   sc_type_arc_common | sc_type_const,
+                                                   v2,
+                                                   sc_type_arc_pos_const_perm,
+                                                   graph);
+    int count = 0;
+    while (sc_iterator5_next(it5) == SC_TRUE)
+        count++;
+
+    sc_iterator5_free(it5);
+
+    return count == 1 ? SC_RESULT_OK : SC_RESULT_ERROR;
+}

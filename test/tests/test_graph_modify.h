@@ -22,6 +22,7 @@ protected:
 private:
     bool check_vertex_creation();
     bool check_arc_creation();
+    bool check_adjacency();
 
 private:
     //! Graph structure for modification
