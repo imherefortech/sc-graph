@@ -1,0 +1,64 @@
+<html>
+
+<head>
+	<meta http-equiv="CONTENT-TYPE" content="text/html; charset=utf-8">
+	<link rel="stylesheet" type="text/css" href="style.css">
+</head>
+
+<body>
+	<h1>Теория графов</h1>
+	<p>Описнание...</p>
+
+	<h2>Кодирование графов с помощью SC-кода</h2>
+
+	<h3>Ключевые узлы</h3>
+
+	<table>
+		<tr>
+			<th>Системный идентификатор</th>
+			<th>Пояснение</th>
+			<th>Русскоязычный идентификатор</th>
+			<th>Англоязычный идентификатор</th>
+		</tr>
+
+		<tr>
+			<td>graph_graph</td>
+			<td>Множество всех графов</td>
+			<td>Граф</td>
+			<td>Graph</td>
+		</tr>
+
+		<tr>
+			<td>graph_rrel_vertex</td>
+			<td></td>
+			<td>вершина графа'</td>
+			<td>graph vertex'</td>
+		</tr>
+
+		<tr>
+			<td>graph_rrel_arc</td>
+			<td></td>
+			<td>дуга графа'</td>
+			<td>graph arc'</td>
+		</tr>
+
+	</table>
+
+	<h3>Типовые конструкции</h3>
+
+	<p>Граф представляется как узел, который с помощью константной, позитивной дуги принадлежности включается во множество всех графов:</p>
+	<img src="images/example_graph_x.png"></img>
+
+	<p>Вершина графа задается с помощью ролевого отношения <i>вершина графа'</i>:</p>
+	<img src="images/example_graph_x_vertex.png"></img>
+
+	<p>Луга в графе задается с помощью ролевого отношения <i>дуга графа'</i>:</p>
+	<img src="images/example_graph_x_arc.png"></img>
+	<div class="comment">
+		<i class="note"></i>
+		Дуга может соединять лишь узлы, которые принадлежат тому же графу, что и сама дуга
+	</div>
+
+</body>
+
+</html>
