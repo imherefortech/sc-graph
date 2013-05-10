@@ -108,3 +108,23 @@ sc_result sc_graph_check_elements_adjacency(sc_addr graph, sc_addr v1, sc_addr v
 
     return count == 1 ? SC_RESULT_OK : SC_RESULT_ERROR;
 }
+
+int sc_graph_count_vertices(sc_addr graph)
+{
+    int count = 0;
+    sc_iterator5 *it5 = sc_iterator5_f_a_a_a_f_new(graph,
+                                                   sc_type_arc_pos_const_perm,
+                                                   sc_type_node,
+                                                   sc_type_arc_pos_const_perm,
+                                                   sc_graph_keynode_rrel_vertex);
+
+    if (sc_helper_check_arc(sc_graph_keynode_graph, graph, sc_type_arc_pos_const_perm) == SC_FALSE)
+        return -1;
+
+    while (sc_iterator5_next(it5) == SC_TRUE)
+        count++;
+
+    sc_iterator5_free(it5);
+
+    return count;
+}

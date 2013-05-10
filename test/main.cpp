@@ -6,6 +6,7 @@
 
 #include "tests/test_graph_gen.h"
 #include "tests/test_graph_modify.h"
+#include "tests/test_count_vertices.h"
 
 
 typedef std::vector<Test*> tTestVector;
@@ -114,6 +115,7 @@ int main(int argc, char *argv[])
     tTestVector tests;
     tests.push_back(new TestGraphGen());
     tests.push_back(new TestGraphModify());
+    tests.push_back(new TestCountVertices());
 
     // ------ run tests ----------
     printf("Run tests...\n");
