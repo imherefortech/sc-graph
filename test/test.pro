@@ -16,11 +16,13 @@ SOURCES += \
     main.cpp \
     utils.cpp \
     tests/test_graph_gen.cpp \
-    tests/test_graph_modify.cpp
+    tests/test_graph_modify.cpp \
+    tests/test_find_conn_comp.cpp
 
 HEADERS += \
     utils.h \
     prerequest.h \
     test.h \
     tests/test_graph_gen.h \
-    tests/test_graph_modify.h
+    tests/test_graph_modify.h \
+    tests/test_find_conn_comp.h
