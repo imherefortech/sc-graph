@@ -20,8 +20,6 @@ protected:
     void done();
 
 private:
-    bool check_vertex_creation();
-    bool check_arc_creation();
     bool check_find_conn_comp();
 
 private:
