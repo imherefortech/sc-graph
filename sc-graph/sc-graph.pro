@@ -18,11 +18,11 @@ HEADERS += \
     sc_graph_prerequest.h \
     sc_graph_main.h \
     sc_graph_keynodes.h \
-    sc_graph_find_conn_comp.h
+    sc_graph_element.h
 
 SOURCES += \
     sc_graph_generator.c \
     sc_graph_struct.c \
     sc_graph_keynodes.c \
     sc_graph_main.c \
-    sc_graph_find_conn_comp.c
+    sc_graph_element.c

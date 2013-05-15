@@ -4,7 +4,7 @@
 #include "sc_graph_keynodes.h"
 #include "sc_graph_generator.h"
 #include "sc_graph_struct.h"
-#include "sc_graph_find_conn_comp.h"
+#include "sc_graph_element.h"
 
 
 /*!
