@@ -7,6 +7,7 @@ sc_addr sc_graph_keynode_graph;
 sc_addr sc_graph_keynode_not_oriented_graph;
 sc_addr sc_graph_keynode_oriented_graph;
 sc_addr sc_graph_keynode_rrel_vertex;
+sc_addr sc_graph_keynode_rrel_edge;
 sc_addr sc_graph_keynode_rrel_arc;
 
 const char sc_graph_keynode_graph_str[] = "graph_graph";
