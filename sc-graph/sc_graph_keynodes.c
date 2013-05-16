@@ -30,8 +30,8 @@ sc_bool sc_graph_initialize_keynodes()
 {
     // try to resolve keynode
     resolve_keynode(sc_graph_keynode_graph, sc_type_node_struct);
-    resolve_keynode(sc_graph_keynode_not_oriented_graph, sc_type_node_struct);
-    resolve_keynode(sc_graph_keynode_oriented_graph, sc_type_node_struct);
+    resolve_keynode(sc_graph_keynode_not_oriented_graph, sc_type_node_class);
+    resolve_keynode(sc_graph_keynode_oriented_graph, sc_type_node_class);
     resolve_keynode(sc_graph_keynode_rrel_vertex, sc_type_node_role);
     resolve_keynode(sc_graph_keynode_rrel_edge, sc_type_node_role);
     resolve_keynode(sc_graph_keynode_rrel_arc, sc_type_node_role);
