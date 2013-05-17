@@ -21,12 +21,15 @@ protected:
 
 private:
     bool check_vertex_creation();
+    bool check_edge_creation();
     bool check_arc_creation();
-    bool check_adjacency();
+    bool check_adjacency_in_not_oriented_graph();
+    bool check_adjacency_in_oriented_graph();
 
 private:
     //! Graph structure for modification
-    sc_addr mGraphAddr;
+    sc_addr mGraphAddr_oriented;
+    sc_addr mGraphAddr_not_oriented;
 };
 
 #endif // _test_graph_modify_h_

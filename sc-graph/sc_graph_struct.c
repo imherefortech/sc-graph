@@ -19,7 +19,8 @@ sc_result sc_graph_create_vertex(sc_addr graph, sc_addr *vertex)
 
 sc_result sc_graph_create_arc(sc_addr graph, sc_addr v1, sc_addr v2, sc_addr *arc)
 {
-    sc_addr a;
+    sc_addr a, rrel_keynode;
+    sc_type arc_type = 0;
 
     // first of all check if v1 and v2 are verticies of graph structure
     if (sc_graph_check_element(graph, v1) != SC_RESULT_OK)
@@ -28,9 +29,23 @@ sc_result sc_graph_create_arc(sc_addr graph, sc_addr v1, sc_addr v2, sc_addr *ar
     if (sc_graph_check_element(graph, v2) != SC_RESULT_OK)
         return SC_RESULT_ERROR_INVALID_PARAMS;
 
-    *arc = sc_memory_arc_new(sc_type_arc_common | sc_type_const, v1, v2);
+    // determine graph type
+    if (sc_helper_check_arc(sc_graph_keynode_not_oriented_graph, graph, sc_type_arc_pos_const_perm) == SC_TRUE)
+    {
+        arc_type = sc_type_edge_common;
+        rrel_keynode = sc_graph_keynode_rrel_edge;
+    }
+    else if (sc_helper_check_arc(sc_graph_keynode_oriented_graph, graph, sc_type_arc_pos_const_perm) == SC_TRUE)
+    {
+        arc_type = sc_type_arc_common;
+        rrel_keynode = sc_graph_keynode_rrel_arc;
+    }
+    else return SC_RESULT_ERROR_INVALID_PARAMS;
+
+    // generate element
+    *arc = sc_memory_arc_new(arc_type | sc_type_const, v1, v2);
     a = sc_memory_arc_new(sc_type_arc_pos_const_perm, graph, *arc);
-    sc_memory_arc_new(sc_type_arc_pos_const_perm, sc_graph_keynode_rrel_arc, a);
+    sc_memory_arc_new(sc_type_arc_pos_const_perm, rrel_keynode, a);
 
     return SC_RESULT_OK;
 }
@@ -57,15 +72,27 @@ sc_result sc_graph_check_vertex(sc_addr graph, sc_addr vertex)
 
 sc_result sc_graph_check_arc(sc_addr graph, sc_addr arc)
 {
+    sc_addr arc_type;
+
     if (sc_helper_check_arc(sc_graph_keynode_graph, graph, sc_type_arc_pos_const_perm) == SC_FALSE)
         return SC_RESULT_ERROR_INVALID_PARAMS;
 
-    // check if vertex created correctly
+    if (sc_helper_check_arc(sc_graph_keynode_not_oriented_graph, graph, sc_type_arc_pos_const_perm) == SC_TRUE)
+    {
+        arc_type = sc_graph_keynode_rrel_edge;
+    }
+    else if (sc_helper_check_arc(sc_graph_keynode_oriented_graph, graph, sc_type_arc_pos_const_perm) == SC_TRUE)
+    {
+        arc_type = sc_graph_keynode_rrel_arc;
+    }
+    else return SC_RESULT_ERROR_INVALID_PARAMS;
+
+    // check if arc created correctly
     sc_iterator5 *it5 = sc_iterator5_f_a_f_a_f_new(graph,
                                                    sc_type_arc_pos_const_perm,
                                                    arc,
                                                    sc_type_arc_pos_const_perm,
-                                                   sc_graph_keynode_rrel_arc);
+                                                   arc_type);
     int count = 0;
     while (sc_iterator5_next(it5) == SC_TRUE)
         count++;
@@ -88,15 +115,25 @@ sc_result sc_graph_check_element(sc_addr graph, sc_addr element)
 
 sc_result sc_graph_check_elements_adjacency(sc_addr graph, sc_addr v1, sc_addr v2)
 {
+    sc_type arc_type;
     if (sc_graph_check_element(graph, v1) != SC_RESULT_OK)
         return SC_RESULT_ERROR_INVALID_PARAMS;
 
     if (sc_graph_check_element(graph, v2) != SC_RESULT_OK)
         return SC_RESULT_ERROR_INVALID_PARAMS;
 
-    // todo check for non-orient graphs
+    if (sc_helper_check_arc(sc_graph_keynode_not_oriented_graph, graph, sc_type_arc_pos_const_perm) == SC_TRUE)
+    {
+        arc_type = sc_type_edge_common | sc_type_const;
+    }
+    else if (sc_helper_check_arc(sc_graph_keynode_oriented_graph, graph, sc_type_arc_pos_const_perm) == SC_TRUE)
+    {
+        arc_type = sc_type_arc_common | sc_type_const;
+    }
+    else return SC_RESULT_ERROR_INVALID_PARAMS;
+
     sc_iterator5 *it5 = sc_iterator5_f_a_f_a_f_new(v1,
-                                                   sc_type_arc_common | sc_type_const,
+                                                   arc_type,
                                                    v2,
                                                    sc_type_arc_pos_const_perm,
                                                    graph);

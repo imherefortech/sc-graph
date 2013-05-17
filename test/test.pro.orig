@@ -17,13 +17,20 @@ SOURCES += \
     utils.cpp \
     tests/test_graph_gen.cpp \
     tests/test_graph_modify.cpp \
-    tests/test_find_conn_comp.cpp \
+<<<<<<< HEAD
     tests/test_count_vertices.cpp
+=======
+    tests/test_find_conn_comp.cpp
+>>>>>>> master
+
 HEADERS += \
     utils.h \
     prerequest.h \
     test.h \
     tests/test_graph_gen.h \
     tests/test_graph_modify.h \
-    tests/test_find_conn_comp.h \
+<<<<<<< HEAD
     tests/test_count_vertices.h
+=======
+    tests/test_find_conn_comp.h
+>>>>>>> master

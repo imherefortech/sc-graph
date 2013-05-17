@@ -4,7 +4,10 @@
 #include "sc_graph_prerequest.h"
 
 extern sc_addr sc_graph_keynode_graph;
+extern sc_addr sc_graph_keynode_not_oriented_graph;
+extern sc_addr sc_graph_keynode_oriented_graph;
 extern sc_addr sc_graph_keynode_rrel_vertex;
+extern sc_addr sc_graph_keynode_rrel_edge;
 extern sc_addr sc_graph_keynode_rrel_arc;
 
 
