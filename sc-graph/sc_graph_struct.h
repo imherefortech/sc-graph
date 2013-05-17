@@ -61,8 +61,9 @@ sc_result sc_graph_check_elements_adjacency(sc_addr graph, sc_addr v1, sc_addr v
 
 /*! Count number of vertices in specified graph
  * \param graph sc-addr of graph structure
- * \return return the number of vertices if \p graph is correct; otherwise return -1
+ * \param number number of vertices
+ * \return If vertices counted return SC_RESULT_OK; otherwise return error code
  */
-int sc_graph_count_vertices(sc_addr graph);
+sc_result sc_graph_count_vertices(sc_addr graph, int *number);
 
 #endif // _sc_graph_struct_h_

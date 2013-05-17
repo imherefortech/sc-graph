@@ -34,19 +34,6 @@ void TestCountVertices::done()
 
 }
 
-bool TestCountVertices::check_vertex_creation()
-{
-    assert(SC_ADDR_IS_NOT_EMPTY(mGraphAddr));
-
-    sc_addr vertex;
-    if (sc_graph_create_vertex(mGraphAddr, &vertex) != SC_RESULT_OK)
-        return false;
-
-    // check if vertex created correctly
-    return sc_graph_check_vertex(mGraphAddr, vertex) == SC_RESULT_OK;
-}
-
-
 bool TestCountVertices::check_count_vertices()
 {
     assert(SC_ADDR_IS_NOT_EMPTY(mGraphAddr));
@@ -62,8 +49,11 @@ bool TestCountVertices::check_count_vertices()
     if (sc_graph_create_vertex(mGraphAddr, &v4) != SC_RESULT_OK)
         return false;
 
+    int number;
+    if (sc_graph_count_vertices(mGraphAddr, &number) != SC_RESULT_OK)
+        return false;
 
-    if (sc_graph_count_vertices(mGraphAddr) != 4)
+    if (number != 4)
         return false;
 
     return true;
