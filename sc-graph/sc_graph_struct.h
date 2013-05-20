@@ -59,5 +59,12 @@ sc_result sc_graph_check_element(sc_addr graph, sc_addr element);
  */
 sc_result sc_graph_check_elements_adjacency(sc_addr graph, sc_addr v1, sc_addr v2);
 
+/*! Count number of edges in specified graph
+ * \param graph sc-addr of graph structure
+ * \param number number of edges
+ * \return If edges counted return SC_RESULT_OK; otherwise return error code
+ */
+sc_result sc_graph_count_edges(sc_addr graph, int *number);
+
 
 #endif // _sc_graph_struct_h_
