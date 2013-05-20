@@ -89,4 +89,57 @@ sc_result sc_graph_find_conn_comp(sc_addr graph, sc_addr *conn_comp_set)
     return SC_RESULT_OK;
 }
 
+/*! Calculates vertex degree
+ * \param graph
+ *          graph that contains vertex for degree calculation
+ * \param vertex
+ *          vertex for deegree calculation
+ * \param result
+ *          vertex degree
+ */
 
+sc_result sc_graph_vertex_degree(sc_addr graph, sc_addr vertex, int *result)
+{
+    int degree = 0;
+    sc_type arc_type = 0;
+    sc_iterator3 *it3;
+
+    if (sc_helper_check_arc(sc_graph_keynode_graph, graph, sc_type_arc_pos_const_perm) == SC_FALSE)
+        return SC_RESULT_ERROR_INVALID_PARAMS;
+
+    //Check if vertex belongs to this garph
+    if (sc_graph_check_vertex(graph, vertex) != SC_RESULT_OK)
+        return SC_RESULT_ERROR_INVALID_PARAMS;
+
+    if (sc_helper_check_arc(sc_graph_keynode_not_oriented_graph, graph, sc_type_arc_pos_const_perm) == SC_TRUE)
+    {
+        arc_type = sc_type_edge_common;
+    }
+    else if (sc_helper_check_arc(sc_graph_keynode_oriented_graph, graph, sc_type_arc_pos_const_perm) == SC_TRUE)
+    {
+        arc_type = sc_type_arc_common;
+    }
+    else return SC_RESULT_ERROR_INVALID_PARAMS;
+
+    it3 = sc_iterator3_f_a_a_new(vertex, arc_type, sc_type_node);
+
+    while (sc_iterator3_next(it3) == SC_TRUE)
+        // The arc must belong to the current graph
+        if (sc_graph_check_arc(graph,it3->results[1]) == SC_RESULT_OK)
+        degree++;
+
+    if (arc_type == sc_type_edge_common)
+    {
+        *result = degree;
+        return SC_RESULT_OK;
+    }
+
+    it3 = sc_iterator3_a_a_f_new(sc_type_node, arc_type, vertex);
+
+    while (sc_iterator3_next(it3) == SC_TRUE)
+        if (sc_graph_check_arc(graph,it3->results[1]) == SC_RESULT_OK)
+        degree++;
+
+    *result = degree;
+    return SC_RESULT_OK;
+}
