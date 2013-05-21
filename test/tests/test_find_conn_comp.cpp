@@ -45,10 +45,6 @@ bool TestFindConnComp::check_find_conn_comp_not_or()
 
     sc_addr_list *conn_comp_set;
 
-    sc_iterator3 *it3;
-
-    bool res = false;
-
     if (sc_graph_create_vertex(mNotOrGraphAddr, &v1) != SC_RESULT_OK)
         return false;
     if (sc_graph_create_vertex(mNotOrGraphAddr, &v2) != SC_RESULT_OK)
@@ -65,83 +61,83 @@ bool TestFindConnComp::check_find_conn_comp_not_or()
     if (sc_graph_find_conn_comp(mNotOrGraphAddr, &conn_comp_set) != SC_RESULT_OK)
             return false;
 
-
     sc_addr conn_comp = conn_comp_set->value;
-    int count = 0;
 
-    sc_iterator3 *vert_it3 = sc_iterator3_f_a_a_new(conn_comp,
-                                                   sc_type_arc_pos_const_perm,
-                                                   sc_type_node);
-
-    while (sc_iterator3_next(vert_it3) == SC_TRUE)
-        count++;
-
-    sc_iterator3_free(vert_it3);
-    vert_it3 = sc_iterator3_f_a_a_new(conn_comp,
-                                      sc_type_arc_pos_const_perm,
-                                      sc_type_node);
-
-    if (count != 1)
+    if (sc_helper_check_arc(sc_graph_keynode_not_oriented_graph, conn_comp,
+                            sc_type_arc_pos_const_perm) == SC_FALSE)
         return false;
 
-    sc_iterator3_next(vert_it3);
-    if (sc_iterator3_next(vert_it3) == SC_TRUE)
+    sc_iterator5 *graph_it5 = sc_iterator5_f_a_a_a_f_new(conn_comp,
+                                                        sc_type_arc_pos_const_perm,
+                                                        sc_type_node,
+                                                        sc_type_arc_pos_const_perm,
+                                                        sc_graph_keynode_rrel_vertex);
+
+
+    if (sc_iterator5_next(graph_it5) == SC_FALSE)
         return false;
-    if (!SC_ADDR_IS_EQUAL(vert_it3->results[2], v4))
+    if (!SC_ADDR_IS_EQUAL(graph_it5->results[2], v4))
+        return false;
+    if (sc_iterator5_next(graph_it5) == SC_TRUE)
         return false;
 
-    sc_iterator3_free(vert_it3);
+    sc_iterator5_free(graph_it5);
+
+    graph_it5 = sc_iterator5_f_a_a_a_f_new(conn_comp,
+                                           sc_type_arc_pos_const_perm,
+                                           sc_type_edge_common,
+                                           sc_type_arc_pos_const_perm,
+                                           sc_graph_keynode_rrel_edge);
+
+    if (sc_iterator5_next(graph_it5) == SC_TRUE)
+        return false;
 
     conn_comp_set = sc_addr_list_next(conn_comp_set);
     conn_comp = conn_comp_set->value;
 
-    vert_it3 = sc_iterator3_f_a_a_new(conn_comp,
-                                      sc_type_arc_pos_const_perm,
-                                      sc_type_node);
+    sc_iterator5_free(graph_it5);
 
-    count = 0;
-    while (sc_iterator3_next(vert_it3) == SC_TRUE)
-        count++;
+    graph_it5 = sc_iterator5_f_a_a_a_f_new(conn_comp,
+                                           sc_type_arc_pos_const_perm,
+                                           sc_type_node,
+                                           sc_type_arc_pos_const_perm,
+                                           sc_graph_keynode_rrel_vertex);
 
-    sc_iterator3_free(vert_it3);
-    vert_it3 = sc_iterator3_f_a_a_new(conn_comp,
-                                      sc_type_arc_pos_const_perm,
-                                      sc_type_node);
-
-    if (count != 3)
+    if (sc_iterator5_next(graph_it5) == SC_FALSE)
+        return false;
+    if (!SC_ADDR_IS_EQUAL(graph_it5->results[2], v3))
+        return false;
+    if (sc_iterator5_next(graph_it5) == SC_FALSE)
+        return false;
+    if (!SC_ADDR_IS_EQUAL(graph_it5->results[2], v2))
+        return false;
+    if (sc_iterator5_next(graph_it5) == SC_FALSE)
+        return false;
+    if (!SC_ADDR_IS_EQUAL(graph_it5->results[2], v1))
         return false;
 
-    sc_addr vert1, vert2, vert3;
-    sc_iterator3_next(vert_it3);
-    vert1 = vert_it3->results[2];
-    sc_iterator3_next(vert_it3);
-    vert2 = vert_it3->results[2];
-    sc_iterator3_next(vert_it3);
-    vert3 = vert_it3->results[2];
-
-    if (sc_iterator3_next(vert_it3) == SC_TRUE)
+    if (sc_iterator5_next(graph_it5) == SC_TRUE)
         return false;
 
-    if (!SC_ADDR_IS_EQUAL(vert1, v1) &&
-        !SC_ADDR_IS_EQUAL(vert1, v2) &&
-        !SC_ADDR_IS_EQUAL(vert1, v3) )
+    sc_iterator5_free(graph_it5);
+
+    graph_it5 = sc_iterator5_f_a_a_a_f_new(conn_comp,
+                                           sc_type_arc_pos_const_perm,
+                                           sc_type_edge_common,
+                                           sc_type_arc_pos_const_perm,
+                                           sc_graph_keynode_rrel_edge);
+
+    if (sc_iterator5_next(graph_it5) == SC_FALSE)
         return false;
-    if (!SC_ADDR_IS_EQUAL(vert2, v1) &&
-        !SC_ADDR_IS_EQUAL(vert2, v2) &&
-        !SC_ADDR_IS_EQUAL(vert2, v3) )
+    if (!SC_ADDR_IS_EQUAL(graph_it5->results[2], arc2))
         return false;
-    if (!SC_ADDR_IS_EQUAL(vert3, v1) &&
-        !SC_ADDR_IS_EQUAL(vert3, v2) &&
-        !SC_ADDR_IS_EQUAL(vert3, v3) )
+    if (sc_iterator5_next(graph_it5) == SC_FALSE)
         return false;
-    if (SC_ADDR_IS_EQUAL(vert1, vert2) ||
-        SC_ADDR_IS_EQUAL(vert2, vert3) ||
-        SC_ADDR_IS_EQUAL(vert1, vert3) )
+    if (!SC_ADDR_IS_EQUAL(graph_it5->results[2], arc1))
         return false;
 
-    sc_iterator3_free(vert_it3);
-
-    sc_iterator3_free(it3);
+    if (sc_iterator5_next(graph_it5) == SC_TRUE)
+        return false;
 
     return true;
 }
@@ -150,15 +146,11 @@ bool TestFindConnComp::check_find_conn_comp_or()
 {
     assert(SC_ADDR_IS_NOT_EMPTY(mOrGraphAddr));
 
-    sc_memory_arc_new(sc_type_arc_pos_const_perm, sc_graph_keynode_not_oriented_graph, mOrGraphAddr);
+    sc_memory_arc_new(sc_type_arc_pos_const_perm, sc_graph_keynode_oriented_graph, mOrGraphAddr);
 
     sc_addr v1, v2, v3, v4, arc1, arc2;
 
     sc_addr_list *conn_comp_set;
-
-    sc_iterator3 *it3;
-
-    bool res = false;
 
     if (sc_graph_create_vertex(mOrGraphAddr, &v1) != SC_RESULT_OK)
         return false;
@@ -176,83 +168,83 @@ bool TestFindConnComp::check_find_conn_comp_or()
     if (sc_graph_find_conn_comp(mOrGraphAddr, &conn_comp_set) != SC_RESULT_OK)
             return false;
 
-
     sc_addr conn_comp = conn_comp_set->value;
-    int count = 0;
 
-    sc_iterator3 *vert_it3 = sc_iterator3_f_a_a_new(conn_comp,
-                                                   sc_type_arc_pos_const_perm,
-                                                   sc_type_node);
-
-    while (sc_iterator3_next(vert_it3) == SC_TRUE)
-        count++;
-
-    sc_iterator3_free(vert_it3);
-    vert_it3 = sc_iterator3_f_a_a_new(conn_comp,
-                                      sc_type_arc_pos_const_perm,
-                                      sc_type_node);
-
-    if (count != 1)
+    if (sc_helper_check_arc(sc_graph_keynode_oriented_graph, conn_comp,
+                            sc_type_arc_pos_const_perm) == SC_FALSE)
         return false;
 
-    sc_iterator3_next(vert_it3);
-    if (sc_iterator3_next(vert_it3) == SC_TRUE)
+    sc_iterator5 *graph_it5 = sc_iterator5_f_a_a_a_f_new(conn_comp,
+                                                        sc_type_arc_pos_const_perm,
+                                                        sc_type_node,
+                                                        sc_type_arc_pos_const_perm,
+                                                        sc_graph_keynode_rrel_vertex);
+
+
+    if (sc_iterator5_next(graph_it5) == SC_FALSE)
         return false;
-    if (!SC_ADDR_IS_EQUAL(vert_it3->results[2], v4))
+    if (!SC_ADDR_IS_EQUAL(graph_it5->results[2], v4))
+        return false;
+    if (sc_iterator5_next(graph_it5) == SC_TRUE)
         return false;
 
-    sc_iterator3_free(vert_it3);
+    sc_iterator5_free(graph_it5);
+
+    graph_it5 = sc_iterator5_f_a_a_a_f_new(conn_comp,
+                                           sc_type_arc_pos_const_perm,
+                                           sc_type_arc_common,
+                                           sc_type_arc_pos_const_perm,
+                                           sc_graph_keynode_rrel_arc);
+
+    if (sc_iterator5_next(graph_it5) == SC_TRUE)
+        return false;
 
     conn_comp_set = sc_addr_list_next(conn_comp_set);
     conn_comp = conn_comp_set->value;
 
-    vert_it3 = sc_iterator3_f_a_a_new(conn_comp,
-                                      sc_type_arc_pos_const_perm,
-                                      sc_type_node);
+    sc_iterator5_free(graph_it5);
 
-    count = 0;
-    while (sc_iterator3_next(vert_it3) == SC_TRUE)
-        count++;
+    graph_it5 = sc_iterator5_f_a_a_a_f_new(conn_comp,
+                                           sc_type_arc_pos_const_perm,
+                                           sc_type_node,
+                                           sc_type_arc_pos_const_perm,
+                                           sc_graph_keynode_rrel_vertex);
 
-    sc_iterator3_free(vert_it3);
-    vert_it3 = sc_iterator3_f_a_a_new(conn_comp,
-                                      sc_type_arc_pos_const_perm,
-                                      sc_type_node);
-
-    if (count != 3)
+    if (sc_iterator5_next(graph_it5) == SC_FALSE)
+        return false;
+    if (!SC_ADDR_IS_EQUAL(graph_it5->results[2], v3))
+        return false;
+    if (sc_iterator5_next(graph_it5) == SC_FALSE)
+        return false;
+    if (!SC_ADDR_IS_EQUAL(graph_it5->results[2], v2))
+        return false;
+    if (sc_iterator5_next(graph_it5) == SC_FALSE)
+        return false;
+    if (!SC_ADDR_IS_EQUAL(graph_it5->results[2], v1))
         return false;
 
-    sc_addr vert1, vert2, vert3;
-    sc_iterator3_next(vert_it3);
-    vert1 = vert_it3->results[2];
-    sc_iterator3_next(vert_it3);
-    vert2 = vert_it3->results[2];
-    sc_iterator3_next(vert_it3);
-    vert3 = vert_it3->results[2];
-
-    if (sc_iterator3_next(vert_it3) == SC_TRUE)
+    if (sc_iterator5_next(graph_it5) == SC_TRUE)
         return false;
 
-    if (!SC_ADDR_IS_EQUAL(vert1, v1) &&
-        !SC_ADDR_IS_EQUAL(vert1, v2) &&
-        !SC_ADDR_IS_EQUAL(vert1, v3) )
+    sc_iterator5_free(graph_it5);
+
+    graph_it5 = sc_iterator5_f_a_a_a_f_new(conn_comp,
+                                           sc_type_arc_pos_const_perm,
+                                           sc_type_arc_common,
+                                           sc_type_arc_pos_const_perm,
+                                           sc_graph_keynode_rrel_arc);
+
+    if (sc_iterator5_next(graph_it5) == SC_FALSE)
         return false;
-    if (!SC_ADDR_IS_EQUAL(vert2, v1) &&
-        !SC_ADDR_IS_EQUAL(vert2, v2) &&
-        !SC_ADDR_IS_EQUAL(vert2, v3) )
+    if (!SC_ADDR_IS_EQUAL(graph_it5->results[2], arc2))
         return false;
-    if (!SC_ADDR_IS_EQUAL(vert3, v1) &&
-        !SC_ADDR_IS_EQUAL(vert3, v2) &&
-        !SC_ADDR_IS_EQUAL(vert3, v3) )
+    if (sc_iterator5_next(graph_it5) == SC_FALSE)
         return false;
-    if (SC_ADDR_IS_EQUAL(vert1, vert2) ||
-        SC_ADDR_IS_EQUAL(vert2, vert3) ||
-        SC_ADDR_IS_EQUAL(vert1, vert3) )
+    if (!SC_ADDR_IS_EQUAL(graph_it5->results[2], arc1))
         return false;
 
-    sc_iterator3_free(vert_it3);
-
-    sc_iterator3_free(it3);
+    if (sc_iterator5_next(graph_it5) == SC_TRUE)
+        return false;
 
     return true;
 }

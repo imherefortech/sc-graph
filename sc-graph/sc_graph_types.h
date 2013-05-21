@@ -31,6 +31,11 @@ sc_addr_list* sc_addr_list_next(sc_addr_list *item);
  */
 sc_addr_list* sc_addr_list_remove(sc_addr_list *item);
 
+/*! Check if element is included in the list
+ * \param head Pointer to current list head
+ * \param elem sc_addr of an element
+ * \return Returns SC_TRUE if element is included in the list and SC_FALSE otherwise
+ */
 sc_bool sc_addr_list_is_included(sc_addr_list *head, sc_addr elem);
 
 #endif // _sc_graph_types_h_

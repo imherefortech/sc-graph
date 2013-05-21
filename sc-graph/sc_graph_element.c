@@ -14,17 +14,25 @@
  */
 void deep_first_search_for_find_conn_comp(sc_addr curr_vertex, sc_addr_list **not_checked_vertices, sc_addr *curr_conn_comp, sc_addr graph)
 {
+    sc_addr arc, rrel_keynode;
     sc_type arc_type;
     sc_iterator5 *it5;
 
     *not_checked_vertices = sc_addr_list_remove(*not_checked_vertices);
 
-    sc_memory_arc_new(sc_type_arc_pos_const_perm, *curr_conn_comp, curr_vertex);
+    arc = sc_memory_arc_new(sc_type_arc_pos_const_perm, *curr_conn_comp, curr_vertex);
+    sc_memory_arc_new(sc_type_arc_pos_const_perm, sc_graph_keynode_rrel_vertex, arc);
 
-    if (sc_helper_check_arc(sc_graph_keynode_not_oriented_graph, graph, sc_type_arc_pos_const_perm))
+    if (sc_helper_check_arc(sc_graph_keynode_not_oriented_graph, graph, sc_type_arc_pos_const_perm) == SC_TRUE)
+    {
         arc_type = sc_type_edge_common;
-    else if (sc_helper_check_arc(sc_graph_keynode_oriented_graph, graph, sc_type_arc_pos_const_perm))
+        rrel_keynode = sc_graph_keynode_rrel_edge;
+    }
+    else if (sc_helper_check_arc(sc_graph_keynode_oriented_graph, graph, sc_type_arc_pos_const_perm) == SC_TRUE)
+    {
         arc_type = sc_type_arc_common;
+        rrel_keynode = sc_graph_keynode_rrel_arc;
+    }
 
     it5 = sc_iterator5_f_a_a_a_f_new(curr_vertex,
                                      arc_type | sc_type_const,
@@ -35,7 +43,11 @@ void deep_first_search_for_find_conn_comp(sc_addr curr_vertex, sc_addr_list **no
     while(sc_iterator5_next(it5) == SC_TRUE)
     {
         if (sc_addr_list_is_included(*not_checked_vertices, it5->results[2]) == SC_TRUE)
+        {
+            arc = sc_memory_arc_new(sc_type_arc_pos_const_perm, *curr_conn_comp, it5->results[1]);
+            sc_memory_arc_new(sc_type_arc_pos_const_perm, rrel_keynode, arc);
             deep_first_search_for_find_conn_comp(it5->results[2], not_checked_vertices, curr_conn_comp, graph);
+        }
     }
     sc_iterator5_free(it5);
 
@@ -43,7 +55,7 @@ void deep_first_search_for_find_conn_comp(sc_addr curr_vertex, sc_addr_list **no
 
 sc_result sc_graph_find_conn_comp(sc_addr graph, sc_addr_list **conn_comp_set)
 {
-    sc_addr curr_vertex;
+    sc_addr curr_vertex, graph_keynode;
     sc_addr_list *not_checked_vertices = nullptr;
 
     sc_iterator5 *it5 = sc_iterator5_f_a_a_a_f_new(graph,
@@ -54,6 +66,12 @@ sc_result sc_graph_find_conn_comp(sc_addr graph, sc_addr_list **conn_comp_set)
 
     if (sc_helper_check_arc(sc_graph_keynode_graph, graph, sc_type_arc_pos_const_perm) == SC_FALSE)
         return SC_RESULT_ERROR_INVALID_PARAMS;
+
+    if (sc_helper_check_arc(sc_graph_keynode_not_oriented_graph, graph, sc_type_arc_pos_const_perm) == SC_TRUE)
+        graph_keynode = sc_graph_keynode_not_oriented_graph;
+    else if (sc_helper_check_arc(sc_graph_keynode_oriented_graph, graph, sc_type_arc_pos_const_perm) == SC_TRUE)
+        graph_keynode = sc_graph_keynode_oriented_graph;
+    else return SC_RESULT_ERROR_INVALID_PARAMS;
 
     *conn_comp_set = nullptr;
 
@@ -69,6 +87,8 @@ sc_result sc_graph_find_conn_comp(sc_addr graph, sc_addr_list **conn_comp_set)
     while (not_checked_vertices != nullptr)
     {
         sc_addr curr_conn_comp = sc_memory_node_new(sc_type_node | sc_type_const);
+        sc_memory_arc_new(sc_type_arc_pos_const_perm, sc_graph_keynode_graph, curr_conn_comp);
+        sc_memory_arc_new(sc_type_arc_pos_const_perm, graph_keynode, curr_conn_comp);
         curr_vertex = not_checked_vertices->value;
         deep_first_search_for_find_conn_comp(curr_vertex, &not_checked_vertices, &curr_conn_comp, graph);
         *conn_comp_set = sc_addr_list_append(*conn_comp_set);

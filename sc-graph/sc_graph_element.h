@@ -8,7 +8,7 @@
  */
 /*! Find connective components of the specified graph
  * \param graph sc-addr of graph structure to search connective components
- * \param sc_addr of a set of connective components; connective compoment is a set of vertices
+ * \param sc_addr of a list of connective components; connective compoment is a graph
  * \return if connective components were found, return SC_RESULT_OK; otherwise return any error code
  */
 sc_result sc_graph_find_conn_comp(sc_addr graph, sc_addr_list **conn_comp_set);
