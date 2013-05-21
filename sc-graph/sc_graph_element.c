@@ -93,6 +93,7 @@ sc_result sc_graph_find_conn_comp(sc_addr graph, sc_addr *conn_comp_set)
 sc_result search_incident_vertex_arc(sc_addr graph, sc_addr vertex, sc_addr_list **listArc)
 {
     sc_iterator3 *it3;
+    sc_iterator5 *it5;
     sc_type arc_type;
     sc_addr sc_graph_keynode_rrel;
 
@@ -113,7 +114,7 @@ sc_result search_incident_vertex_arc(sc_addr graph, sc_addr vertex, sc_addr_list
                                  sc_type_node);
     while(sc_iterator3_next(it3) == SC_TRUE)
     {
-        sc_iterator5 *it5 = sc_iterator5_f_a_f_a_f_new(graph,
+        it5 = sc_iterator5_f_a_f_a_f_new(graph,
                                                        sc_type_arc_pos,
                                                        it3->results[1],
                                                        sc_type_arc_pos,
@@ -124,9 +125,18 @@ sc_result search_incident_vertex_arc(sc_addr graph, sc_addr vertex, sc_addr_list
             (*listArc)->value = it5->results[2];
         }
 
+
+
     }
-    return SC_RESULT_OK;
+
+     sc_iterator5_free(it5);
+     sc_iterator3_free(it3);
+
+     return SC_RESULT_OK;
 
 }
+
+
+
 
 
