@@ -90,3 +90,48 @@ sc_result sc_graph_find_conn_comp(sc_addr graph, sc_addr *conn_comp_set)
 }
 
 
+
+sc_result search_incident_vertexes(sc_addr graph, sc_addr arc, sc_addr_list **listVertex)
+{
+    sc_iterator3 *it3;
+    sc_iterator5 *it5;
+    sc_type arc_type;
+   // sc_addr sc_graph_keynode_rrel;
+
+    if (sc_helper_check_arc(sc_graph_keynode_not_oriented_graph, graph, sc_type_arc_pos_const_perm))
+        arc_type = sc_type_edge_common;
+
+    else if (sc_helper_check_arc(sc_graph_keynode_oriented_graph, graph, sc_type_arc_pos_const_perm))
+        arc_type = sc_type_arc_common;
+
+    it5 = sc_iterator5_f_a_a_a_f_new(graph,
+                                                   sc_type_arc_pos,
+                                                   sc_type_node,
+                                                   sc_type_arc_pos,
+                                                   sc_graph_keynode_rrel_vertex);
+
+
+    while(sc_iterator5_next(it5) == SC_TRUE)
+    {
+        it3 = sc_iterator3_f_a_a_new(it5->results[2],
+                                     arc_type,
+                                     sc_type_node);
+        while(sc_iterator3_next(it3) == SC_TRUE)
+        {
+            if(SC_ADDR_IS_EQUAL(it3->results[1],arc))
+            {
+                *listVertex = sc_addr_list_append(*listVertex);
+                (*listVertex)->value = it3->results[0];
+                *listVertex = sc_addr_list_append(*listVertex);
+                (*listVertex)->value = it3->results[2];
+            }
+        }
+
+    }
+
+    sc_iterator5_free(it5);
+    sc_iterator3_free(it3);
+
+    return SC_RESULT_OK;
+
+}

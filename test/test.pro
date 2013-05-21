@@ -17,7 +17,8 @@ SOURCES += \
     utils.cpp \
     tests/test_graph_gen.cpp \
     tests/test_graph_modify.cpp \
-    tests/test_find_conn_comp.cpp
+    tests/test_find_conn_comp.cpp \
+    tests/test_search_incident_vertexes.cpp
 
 HEADERS += \
     utils.h \
@@ -25,4 +26,5 @@ HEADERS += \
     test.h \
     tests/test_graph_gen.h \
     tests/test_graph_modify.h \
-    tests/test_find_conn_comp.h
+    tests/test_find_conn_comp.h \
+    tests/test_search_incident_vertexes.h
