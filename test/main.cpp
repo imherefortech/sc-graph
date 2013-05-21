@@ -7,6 +7,7 @@
 #include "tests/test_graph_gen.h"
 #include "tests/test_graph_modify.h"
 #include "tests/test_find_conn_comp.h"
+#include "tests/test_search_incident_vertex_arc.h"
 
 
 typedef std::vector<Test*> tTestVector;
@@ -116,6 +117,7 @@ int main(int argc, char *argv[])
     tests.push_back(new TestGraphGen());
     tests.push_back(new TestGraphModify());
     tests.push_back(new TestFindConnComp());
+    tests.push_back(new TestSearchIncidentVertexArc());
 
     // ------ run tests ----------
     printf("Run tests...\n");
