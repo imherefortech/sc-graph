@@ -25,5 +25,12 @@ sc_addr_list* sc_addr_list_append(sc_addr_list *list);
  */
 sc_addr_list* sc_addr_list_next(sc_addr_list *item);
 
+/*! Remove element and return next element in sc_addr_list
+ * \param item Pointer to current list item
+ * \return Returns next to \p item element. If \p item is the last one, then return null pointer
+ */
+sc_addr_list* sc_addr_list_remove(sc_addr_list *item);
+
+sc_bool sc_addr_list_is_included(sc_addr_list *head, sc_addr elem);
 
 #endif // _sc_graph_types_h_

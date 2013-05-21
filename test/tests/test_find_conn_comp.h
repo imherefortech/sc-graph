@@ -20,11 +20,13 @@ protected:
     void done();
 
 private:
-    bool check_find_conn_comp();
+    bool check_find_conn_comp_not_or();
+    bool check_find_conn_comp_or();
 
 private:
     //! Graph structure for modification
-    sc_addr mGraphAddr;
+    sc_addr mOrGraphAddr;
+    sc_addr mNotOrGraphAddr;
 };
 
 #endif // TEST_FIND_MIN_PATH_H
