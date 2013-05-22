@@ -12,4 +12,12 @@
  */
 sc_result sc_graph_find_conn_comp(sc_addr graph, sc_addr *conn_comp_set);
 
+/*! Calculates the \p vertex degree of the \p graph
+ * \param graph sc-addr of the graph structure which contains the vertex
+ * \param vertex sc-addr of the vertex the dergeee of which needs calculating
+ * \param result pointer to int that will contain the degree
+ * \return If degree was found, return SC_RESULT_OK; otherwise returns any error code
+ */
+sc_result sc_graph_vertex_degree(const sc_addr graph, const sc_addr vertex, int *result);
+
 #endif // SC_GRAPH_FIND_CONN_COMP_H
