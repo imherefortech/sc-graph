@@ -39,7 +39,7 @@ bool TestCountEdges::check_count_edges()
     assert(SC_ADDR_IS_NOT_EMPTY(mGraphAddr));
 
 
-    sc_addr v1, v2, v3;
+    sc_addr v1, v2, v3, v4, v5, v6;
 
  
 
@@ -50,10 +50,21 @@ bool TestCountEdges::check_count_edges()
         return false;
     if (sc_graph_create_vertex(mGraphAddr, &v3) != SC_RESULT_OK)
         return false;
+    if (sc_graph_create_vertex(mGraphAddr, &v4) != SC_RESULT_OK)
+        return false;
+    if (sc_graph_create_vertex(mGraphAddr, &v5) != SC_RESULT_OK)
+        return false;
+    if (sc_graph_create_vertex(mGraphAddr, &v6) != SC_RESULT_OK)
+        return false;
 
     if (sc_graph_create_arc(mGraphAddr, &v1, &v2) != SC_RESULT_OK)
+    if (sc_graph_create_arc(mGraphAddr, &v1, &v4) != SC_RESULT_OK)
+    if (sc_graph_create_arc(mGraphAddr, &v1, &v5) != SC_RESULT_OK)
+    if (sc_graph_create_arc(mGraphAddr, &v5, &v3) != SC_RESULT_OK)
+    if (sc_graph_create_arc(mGraphAddr, &v4, &v6) != SC_RESULT_OK)
+    if (sc_graph_create_arc(mGraphAddr, &v6, &v3) != SC_RESULT_OK)
 
- 
+
 
         return false;
 
@@ -62,7 +73,7 @@ bool TestCountEdges::check_count_edges()
         return false;
 
 
-    if (number != 1)
+    if (number != 6)
 
         return false;
 
