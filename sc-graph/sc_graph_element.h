@@ -21,4 +21,11 @@ sc_result sc_graph_find_conn_comp(sc_addr graph, sc_addr_list **conn_comp_set);
  */
 sc_result sc_graph_vertex_degree(const sc_addr graph, const sc_addr vertex, int *result);
 
+/*! Check there is a regular graph
+ * \param graph sc-addr of the graph structure which contains the vertex
+ * \param result pointer to bool that will contain true if all vertex is the same or false if not
+ * \return If graph is regular, return SC_RESULT_OK; otherwise returns any error code
+ */
+sc_result sc_graph_is_regular(sc_addr graph, sc_bool *rezult);
+
 #endif // SC_GRAPH_FIND_CONN_COMP_H

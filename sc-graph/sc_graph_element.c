@@ -152,3 +152,38 @@ sc_result sc_graph_vertex_degree(sc_addr graph, sc_addr vertex, int *result)
     *result = degree;
     return SC_RESULT_OK;
 }
+
+sc_result sc_graph_is_regular(sc_addr graph, sc_bool *rezult)
+{
+    int degree_first = 0;
+    int degree = 0;
+    sc_bool check;
+
+    if (sc_helper_check_arc(sc_graph_keynode_graph, graph, sc_type_arc_pos_const_perm) == SC_FALSE)
+        return SC_RESULT_ERROR_INVALID_PARAMS;
+
+    sc_iterator5 *it5 = sc_iterator5_f_a_a_a_f_new(graph,
+                                                   sc_type_arc_pos_const_perm,
+                                                   sc_type_node | sc_type_const,
+                                                   sc_type_arc_pos_const_perm,
+                                                   sc_graph_keynode_rrel_vertex);
+
+    check = SC_TRUE;
+
+    sc_iterator5_next(it5);
+    if(sc_graph_vertex_degree(graph, it5->results[2], &degree_first) != SC_RESULT_OK)
+        return SC_RESULT_ERROR;
+
+    while(sc_iterator5_next(it5) == SC_TRUE)
+    {
+        if(sc_graph_vertex_degree(graph, it5->results[2], &degree) != SC_RESULT_OK)
+            return SC_RESULT_ERROR;
+        else
+            if(degree_first != degree)
+                check = SC_FALSE;
+    }
+
+    *rezult = check;
+
+    return SC_RESULT_OK;
+}
