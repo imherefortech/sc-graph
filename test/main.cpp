@@ -9,6 +9,8 @@
 #include "tests/test_find_conn_comp.h"
 #include "tests/test_vertex_degree.h"
 #include "tests/test_check_graph_is_regular.h"
+#include "tests/test_check_graph_is_cubic.h"
+#include "tests/test_check_graph_is_disconnected_graph.h"
 
 
 typedef std::vector<Test*> tTestVector;
@@ -120,6 +122,8 @@ int main(int argc, char *argv[])
     tests.push_back(new TestFindConnComp());
     tests.push_back(new TestVertexDegree());
     tests.push_back(new TestCheckGraphIsRegular());
+    tests.push_back(new TestCheckGraphIsCubic());
+    tests.push_back(new TestCheckGraphIsDisconnectedGraph());
 
     // ------ run tests ----------
     printf("Run tests...\n");

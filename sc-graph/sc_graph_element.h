@@ -28,4 +28,18 @@ sc_result sc_graph_vertex_degree(const sc_addr graph, const sc_addr vertex, int 
  */
 sc_result sc_graph_is_regular(sc_addr graph, sc_bool *rezult);
 
+/*! Check there is a cubic graph
+ * \param graph sc-addr of the graph structure which contains the vertex
+ * \param result pointer to bool that will contain true if the degrees of all vertices are equal to 3 or false if not
+ * \return If graph is cubic, return SC_RESULT_OK; otherwise returns any error code
+ */
+sc_result sc_graph_is_cubic(sc_addr graph, sc_bool *rezult);
+
+/*! Check there is a disconnected graph
+ * \param graph sc-addr of the graph structure which contains the vertex
+ * \param result pointer to bool that will contain true if there are no degrees in graph or false if there are
+ * \return If graph is disconnected, return SC_RESULT_OK; otherwise returns any error code
+ */
+sc_result sc_graph_is_disconnected(sc_addr graph, sc_bool *rezult);
+
 #endif // SC_GRAPH_FIND_CONN_COMP_H

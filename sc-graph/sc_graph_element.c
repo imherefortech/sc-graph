@@ -187,3 +187,69 @@ sc_result sc_graph_is_regular(sc_addr graph, sc_bool *rezult)
 
     return SC_RESULT_OK;
 }
+
+sc_result sc_graph_is_cubic(sc_addr graph, sc_bool *rezult)
+{
+    int degree = 0;
+    int cubic_degree = 3;
+    sc_bool check;
+
+    if (sc_helper_check_arc(sc_graph_keynode_graph, graph, sc_type_arc_pos_const_perm) == SC_FALSE)
+        return SC_RESULT_ERROR_INVALID_PARAMS;
+
+    sc_iterator5 *it5 = sc_iterator5_f_a_a_a_f_new(graph,
+                                                   sc_type_arc_pos_const_perm,
+                                                   sc_type_node | sc_type_const,
+                                                   sc_type_arc_pos_const_perm,
+                                                   sc_graph_keynode_rrel_vertex);
+
+    check = SC_TRUE;
+
+    while(sc_iterator5_next(it5) == SC_TRUE)
+    {
+        if(sc_graph_vertex_degree(graph, it5->results[2], &degree) != SC_RESULT_OK)
+            return SC_RESULT_ERROR;
+        else
+            if(degree != cubic_degree)
+                check = SC_FALSE;
+    }
+
+    *rezult = check;
+
+    return SC_RESULT_OK;
+}
+
+sc_result sc_graph_is_disconnected(sc_addr graph, sc_bool *rezult)
+{
+    sc_bool check;
+    sc_type arc_type;
+    sc_addr rrel_keynode;
+    check = SC_TRUE;
+
+    if (sc_helper_check_arc(sc_graph_keynode_graph, graph, sc_type_arc_pos_const_perm) == SC_FALSE)
+        return SC_RESULT_ERROR_INVALID_PARAMS;
+
+    if (sc_helper_check_arc(sc_graph_keynode_not_oriented_graph, graph, sc_type_arc_pos_const_perm) == SC_TRUE)
+    {
+        arc_type = sc_type_edge_common;
+        rrel_keynode =  sc_graph_keynode_rrel_edge;
+    }
+    else if (sc_helper_check_arc(sc_graph_keynode_oriented_graph, graph, sc_type_arc_pos_const_perm) == SC_TRUE)
+    {
+        arc_type = sc_type_arc_common;
+        rrel_keynode =  sc_graph_keynode_rrel_arc;
+    }
+
+    sc_iterator5 *it5 = sc_iterator5_f_a_a_a_f_new(graph,
+                                     sc_type_arc_pos_const_perm,
+                                     arc_type | sc_type_const,
+                                     sc_type_arc_pos_const_perm,
+                                     rrel_keynode);
+
+    if(sc_iterator5_next(it5) != SC_FALSE)
+       check = SC_FALSE;
+
+    *rezult = check;
+
+    return SC_RESULT_OK;
+}
