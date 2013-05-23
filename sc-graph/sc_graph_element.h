@@ -21,4 +21,11 @@ sc_result sc_graph_find_conn_comp(sc_addr graph, sc_addr_list **conn_comp_set);
  */
 sc_result sc_graph_vertex_degree(const sc_addr graph, const sc_addr vertex, int *result);
 
+/*! Check is complete graph or not complete
+ * \param graph sc-addr of graph structure to search connective components
+
+ * \return if graph is complete, return SC_RESULT_OK; otherwise return any error code
+ */
+sc_result is_complete_graph(sc_addr graph);
+
 #endif // SC_GRAPH_FIND_CONN_COMP_H
