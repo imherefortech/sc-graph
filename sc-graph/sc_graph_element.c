@@ -1,6 +1,7 @@
 
 #include "sc_graph_keynodes.h"
 #include "sc_graph_element.h"
+#include "sc_graph_types.h"
 
 /*! Deep first search to build a connective component
  * \param curr_vertex
@@ -106,6 +107,12 @@ sc_result sc_graph_find_conn_comp(sc_addr graph, sc_addr_list **conn_comp_set)
  * \param result
  *          vertex degree
  */
+sc_result search_incident_vertex_arc(sc_addr graph, sc_addr vertex, sc_addr_list **listArc)
+{
+    sc_iterator3 *it3;
+    sc_iterator5 *it5;
+    sc_type arc_type;
+    sc_addr sc_graph_keynode_rrel;
 
 sc_result sc_graph_vertex_degree(sc_addr graph, sc_addr vertex, int *result)
 {
@@ -152,3 +159,46 @@ sc_result sc_graph_vertex_degree(sc_addr graph, sc_addr vertex, int *result)
     *result = degree;
     return SC_RESULT_OK;
 }
+    if (sc_helper_check_arc(sc_graph_keynode_not_oriented_graph, graph, sc_type_arc_pos_const_perm))
+    {
+        arc_type = sc_type_edge_common;
+        sc_graph_keynode_rrel = sc_graph_keynode_rrel_edge;
+    }
+    else if (sc_helper_check_arc(sc_graph_keynode_oriented_graph, graph, sc_type_arc_pos_const_perm))
+    {
+        arc_type = sc_type_arc_common;
+        sc_graph_keynode_rrel = sc_graph_keynode_rrel_arc;
+    }
+
+
+    it3 = sc_iterator3_f_a_a_new(vertex,
+                                 arc_type,
+                                 sc_type_node);
+    while(sc_iterator3_next(it3) == SC_TRUE)
+    {
+        it5 = sc_iterator5_f_a_f_a_f_new(graph,
+                                                       sc_type_arc_pos,
+                                                       it3->results[1],
+                                                       sc_type_arc_pos,
+                                                       sc_graph_keynode_rrel);
+        while(sc_iterator5_next(it5) == SC_TRUE)
+        {
+            *listArc = sc_addr_list_append(*listArc);
+            (*listArc)->value = it5->results[2];
+        }
+
+
+
+    }
+
+     sc_iterator5_free(it5);
+     sc_iterator3_free(it3);
+
+     return SC_RESULT_OK;
+
+}
+
+
+
+
+
