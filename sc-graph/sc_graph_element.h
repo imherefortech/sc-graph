@@ -33,4 +33,14 @@ sc_result search_incident_vertexes(sc_addr graph, sc_addr arc, sc_addr_list **li
 
 
 
+/*! Find incident vertex arcs of the specified graph
+ * \param graph sc-addr of graph structure to work with
+ * \param vertex sc-addr of vertex to search incident arcs
+ * \param listArc list of incident arcs
+ * \return if arcs were found, return SC_RESULT_OK; otherwise return any error code
+ */
+
+sc_result search_incident_vertex_arc(sc_addr graph, sc_addr vertex, sc_addr_list **listArc);
+
+
 #endif // SC_GRAPH_FIND_CONN_COMP_H

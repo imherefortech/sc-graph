@@ -9,6 +9,7 @@
 #include "tests/test_find_conn_comp.h"
 #include "tests/test_vertex_degree.h"
 #include "tests/test_search_incident_vertexes.h"
+#include "tests/test_search_incident_arcs.h"
 
 
 typedef std::vector<Test*> tTestVector;
@@ -120,6 +121,7 @@ int main(int argc, char *argv[])
     tests.push_back(new TestFindConnComp());
     tests.push_back(new TestVertexDegree());
     tests.push_back(new TestSearchIncidentVertexes());
+    tests.push_back(new TestSearchIncidentArcs());
 
     // ------ run tests ----------
     printf("Run tests...\n");

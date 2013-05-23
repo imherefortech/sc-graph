@@ -27,8 +27,8 @@ private:
 
 private:
     //! Graph structure for modification
-    sc_addr mGraphAddr_oriented;
-    sc_addr mGraphAddr_not_oriented;
+    sc_addr mOrGraphAddr;
+    sc_addr mNotOrGraphAddr;
 
 
 };

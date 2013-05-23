@@ -1,43 +1,43 @@
-#include "test_search_incident_vertexes.h"
+#include "test_search_incident_arcs.h"
 
-TestSearchIncidentVertexes::TestSearchIncidentVertexes()
+TestSearchIncidentArcs::TestSearchIncidentArcs()
 {
 
 }
 
-TestSearchIncidentVertexes::~TestSearchIncidentVertexes()
+TestSearchIncidentArcs::~TestSearchIncidentArcs()
 {
 
 }
 
-const String& TestSearchIncidentVertexes::name() const
+const String& TestSearchIncidentArcs::name() const
 {
-    static String value = "Search incident vertex arc";
+    static String value = "Search incident arcs";
     return value;
 }
 
-bool TestSearchIncidentVertexes::prepare()
+bool TestSearchIncidentArcs::prepare()
 {
     return (sc_graph_generate_empty(&mOrGraphAddr) == SC_TRUE) &&
             (sc_graph_generate_empty(&mNotOrGraphAddr) == SC_TRUE);
 }
 
-bool TestSearchIncidentVertexes::run()
+bool TestSearchIncidentArcs::run()
 {
     PREPARE_SUBTESTS();
-    RUN_SUBTEST(check_search_incident_edge_vertexes, "Search incident edge vertexes");
-    RUN_SUBTEST(check_search_incident_arc_vertexes, "Search incident arc vertexes");
+    RUN_SUBTEST(check_search_incident_edges, "Search incident edges");
+    RUN_SUBTEST(check_search_incident_arcs, "Search incident arcs");
 
     return SUBTESTS_RESULT;
 }
 
-void TestSearchIncidentVertexes::done()
+void TestSearchIncidentArcs::done()
 {
 
 }
 
 
-bool TestSearchIncidentVertexes::check_search_incident_edge_vertexes()
+bool TestSearchIncidentArcs::check_search_incident_edges()
 {
     assert(SC_ADDR_IS_NOT_EMPTY(mNotOrGraphAddr));
 
@@ -64,22 +64,22 @@ bool TestSearchIncidentVertexes::check_search_incident_edge_vertexes()
     if(sc_graph_check_arc(mNotOrGraphAddr,arc1) != SC_RESULT_OK)
         return false;
 
-    sc_addr_list *listVertexes = (sc_addr_list*)nullptr;
-    if (search_incident_vertexes(mNotOrGraphAddr, arc1, &listVertexes) != SC_RESULT_OK)
+    sc_addr_list *arcc = (sc_addr_list*)nullptr;
+    if (search_incident_vertex_arc(mNotOrGraphAddr, v1, &arcc) != SC_RESULT_OK)
             return false;
 
-    if(!SC_ADDR_IS_EQUAL(listVertexes->value, v2))
+    if(!SC_ADDR_IS_EQUAL(arcc->value, arc1))
         return false;
 
-    listVertexes = sc_addr_list_next(listVertexes);
+    arcc = sc_addr_list_next(arcc);
 
-    if(!SC_ADDR_IS_EQUAL(listVertexes->value, v1))
+    if(!SC_ADDR_IS_EQUAL(arcc->value, arc2))
         return false;
 
 return true;
 }
 
-bool TestSearchIncidentVertexes::check_search_incident_arc_vertexes()
+bool TestSearchIncidentArcs::check_search_incident_arcs()
 {
     assert(SC_ADDR_IS_NOT_EMPTY(mOrGraphAddr));
 
@@ -102,17 +102,24 @@ bool TestSearchIncidentVertexes::check_search_incident_arc_vertexes()
         return false;
     if (sc_graph_create_arc(mOrGraphAddr, v1, v4, &arc3) != SC_RESULT_OK)
         return false;
-
-    sc_addr_list *listVertexes = (sc_addr_list*)nullptr;
-    if (search_incident_vertexes(mOrGraphAddr, arc2, &listVertexes) != SC_RESULT_OK)
-            return false;
-
-    if(!SC_ADDR_IS_EQUAL(listVertexes->value, v3))
+    if(sc_graph_check_arc(mOrGraphAddr,arc1) != SC_RESULT_OK)
         return false;
 
-    listVertexes = sc_addr_list_next(listVertexes);
+    sc_addr_list *arcc = (sc_addr_list*)nullptr;
+    if (search_incident_vertex_arc(mOrGraphAddr, v1, &arcc) != SC_RESULT_OK)
+            return false;
 
-    if(!SC_ADDR_IS_EQUAL(listVertexes->value, v1))
+    if(!SC_ADDR_IS_EQUAL(arcc->value, arc1))
+        return false;
+
+    arcc = sc_addr_list_next(arcc);
+
+    if(!SC_ADDR_IS_EQUAL(arcc->value, arc2))
+        return false;
+
+    arcc = sc_addr_list_next(arcc);
+
+    if(!SC_ADDR_IS_EQUAL(arcc->value, arc3))
         return false;
 
 return true;
