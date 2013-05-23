@@ -21,4 +21,12 @@ sc_result sc_graph_find_conn_comp(sc_addr graph, sc_addr_list **conn_comp_set);
  */
 sc_result sc_graph_vertex_degree(const sc_addr graph, const sc_addr vertex, int *result);
 
+/*! Find minimal path (for oriented) or route (for not oriented) between two vertices
+ * \param graph sc-addr of the graph structure to search path in
+ * \param begVertex sc-addr of the starting vertex
+ * \param endVertex sc-addr of the ending vertex
+ * \return If path was found, return SC_RESULT_OK; otherwise returns any error code
+ */
+sc_result sc_graph_find_min_path(sc_addr graph, sc_addr begVertex, sc_addr endVertex, sc_addr_list **path);
+
 #endif // SC_GRAPH_FIND_CONN_COMP_H

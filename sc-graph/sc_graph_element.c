@@ -152,3 +152,24 @@ sc_result sc_graph_vertex_degree(sc_addr graph, sc_addr vertex, int *result)
     *result = degree;
     return SC_RESULT_OK;
 }
+
+sc_result sc_graph_find_min_path(sc_addr graph, sc_addr begVertex, sc_addr endVertex, sc_addr_list **path)
+{
+   /* sc_addr curr_vertex, graph_keynode;
+    sc_addr_list *not_checked_vertices = nullptr;
+
+    sc_iterator5 *it5 = sc_iterator5_f_a_a_a_f_new(graph,
+                                                   sc_type_arc_pos_const_perm,
+                                                   sc_type_node | sc_type_const,
+                                                   sc_type_arc_pos_const_perm,
+                                                   sc_graph_keynode_rrel_vertex);
+
+    if (sc_helper_check_arc(sc_graph_keynode_graph, graph, sc_type_arc_pos_const_perm) == SC_FALSE)
+        return SC_RESULT_ERROR_INVALID_PARAMS;
+
+    if (sc_helper_check_arc(sc_graph_keynode_not_oriented_graph, graph, sc_type_arc_pos_const_perm) == SC_TRUE)
+        graph_keynode = sc_graph_keynode_not_oriented_graph;
+    else if (sc_helper_check_arc(sc_graph_keynode_oriented_graph, graph, sc_type_arc_pos_const_perm) == SC_TRUE)
+        graph_keynode = sc_graph_keynode_oriented_graph;
+    else return SC_RESULT_ERROR_INVALID_PARAMS;*/
+}

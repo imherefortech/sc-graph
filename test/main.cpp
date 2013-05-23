@@ -8,6 +8,7 @@
 #include "tests/test_graph_modify.h"
 #include "tests/test_find_conn_comp.h"
 #include "tests/test_vertex_degree.h"
+#include "tests/test_find_min_path.h"
 
 
 typedef std::vector<Test*> tTestVector;
@@ -118,6 +119,7 @@ int main(int argc, char *argv[])
     tests.push_back(new TestGraphModify());
     tests.push_back(new TestFindConnComp());
     tests.push_back(new TestVertexDegree());
+    tests.push_back(new TestFindMinPath());
 
     // ------ run tests ----------
     printf("Run tests...\n");
