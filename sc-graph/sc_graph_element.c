@@ -152,3 +152,52 @@ sc_result sc_graph_vertex_degree(sc_addr graph, sc_addr vertex, int *result)
     *result = degree;
     return SC_RESULT_OK;
 }
+
+sc_result is_complete_graph(sc_addr graph)
+{
+     sc_addr not_checked_vertices, curr_vertex;
+     int cur_count = 0;
+     sc_iterator5 *it5;
+     sc_iterator3 *it3;
+     int kol_vertex = count_vertex(graph);
+
+     it5 = sc_iterator5_f_a_a_a_f_new(graph,
+                                     sc_type_arc_pos_const_perm,
+                                     sc_type_node,
+                                     sc_type_arc_pos_const_perm,
+                                     sc_graph_keynode_rrel_vertex);
+     while(sc_iterator5_next(it5))
+     {
+         cur_count = 0;
+        it3 = sc_iterator3_f_a_a_new(it5->results[2],
+                                     sc_type_arc_common,
+                                     sc_type_node);
+
+         while(sc_iterator3_next(it3))
+             cur_count++;
+
+         if(cur_count != kol_vertex-1)
+             return SC_RESULT_ERROR;
+     }
+
+     return SC_RESULT_OK;
+}
+
+int count_vertex(sc_addr graph)
+{
+    int count_vertex = 0;
+    sc_iterator5 *it5;
+    it5 = sc_iterator5_f_a_a_a_f_new(graph,
+                                    sc_type_arc_pos_const_perm,
+                                    sc_type_node,
+                                    sc_type_arc_pos_const_perm,
+                                    sc_graph_keynode_rrel_vertex);
+
+    while(sc_iterator5_next(it5) == SC_TRUE)
+        count_vertex++;
+    sc_iterator5_free(it5);
+
+    return count_vertex;
+}
+
+
