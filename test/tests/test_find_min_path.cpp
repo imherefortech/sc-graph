@@ -53,6 +53,8 @@ bool TestFindMinPath::check_find_min_path_not_or()
         return false;
     if (sc_graph_create_vertex(mNotOrGraphAddr, &v5) != SC_RESULT_OK)
         return false;
+    if (sc_graph_create_vertex(mNotOrGraphAddr, &v6) != SC_RESULT_OK)
+        return false;
     if (sc_graph_create_arc(mNotOrGraphAddr, v1, v4, &arc1) != SC_RESULT_OK)
         return false;
     if (sc_graph_create_arc(mNotOrGraphAddr, v1, v3, &arc2) != SC_RESULT_OK)
@@ -110,6 +112,8 @@ bool TestFindMinPath::check_find_min_path_or()
     if (sc_graph_create_vertex(mOrGraphAddr, &v4) != SC_RESULT_OK)
         return false;
     if (sc_graph_create_vertex(mOrGraphAddr, &v5) != SC_RESULT_OK)
+        return false;
+    if (sc_graph_create_vertex(mOrGraphAddr, &v6) != SC_RESULT_OK)
         return false;
     if (sc_graph_create_arc(mOrGraphAddr, v1, v4, &arc1) != SC_RESULT_OK)
         return false;
