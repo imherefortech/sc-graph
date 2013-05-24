@@ -1,13 +1,13 @@
-#ifndef TEST_FIND_CONN_COMP_H
-#define TEST_FIND_CONN_COMP_H
+#ifndef TEST_FIND_MIN_PATH_H
+#define TEST_FIND_MIN_PATH_H
 
 #include "test.h"
 
-class TestFindConnComp : public Test
+class TestFindMinPath : public Test
 {
 public:
-    explicit TestFindConnComp();
-    virtual ~TestFindConnComp();
+    explicit TestFindMinPath();
+    virtual ~TestFindMinPath();
 
 protected:
     //! \copydoc Test::name
@@ -20,8 +20,8 @@ protected:
     void done();
 
 private:
-    bool check_find_conn_comp_not_or();
-    bool check_find_conn_comp_or();
+    bool check_find_min_path_not_or();
+    bool check_find_min_path_or();
 
 private:
     //! Graph structure for modification
@@ -29,4 +29,4 @@ private:
     sc_addr mNotOrGraphAddr;
 };
 
-#endif // TEST_FIND_CONN_COMP_H
+#endif // TEST_FIND_MIN_PATH_H

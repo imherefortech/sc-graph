@@ -21,6 +21,7 @@ SOURCES += \
     tests/test_search_incident_vertexes.cpp \
     tests/test_vertex_degree.cpp \
     tests/test_search_incident_arcs.cpp
+    tests/test_find_min_path.cpp \
 
 HEADERS += \
     utils.h \
@@ -32,3 +33,4 @@ HEADERS += \
     tests/test_search_incident_vertexes.h \
     tests/test_vertex_degree.h \
     tests/test_search_incident_arcs.h
+    tests/test_find_min_path.h

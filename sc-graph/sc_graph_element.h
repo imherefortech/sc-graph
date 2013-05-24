@@ -43,4 +43,12 @@ sc_result search_incident_vertexes(sc_addr graph, sc_addr arc, sc_addr_list **li
 sc_result search_incident_vertex_arc(sc_addr graph, sc_addr vertex, sc_addr_list **listArc);
 
 
+/*! Find minimal path (for oriented) or route (for not oriented) between two vertices
+ * \param graph sc-addr of the graph structure to search path in
+ * \param begVertex sc-addr of the starting vertex
+ * \param endVertex sc-addr of the ending vertex
+ * \return If path was found, return SC_RESULT_OK; otherwise returns any error code
+ */
+sc_result sc_graph_find_min_path(sc_addr graph, sc_addr begVertex, sc_addr endVertex, sc_addr_list **path);
+
 #endif // SC_GRAPH_FIND_CONN_COMP_H
