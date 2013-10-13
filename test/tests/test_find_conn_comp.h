@@ -28,5 +28,4 @@ private:
     sc_addr mOrGraphAddr;
     sc_addr mNotOrGraphAddr;
 };
-
 #endif // TEST_FIND_CONN_COMP_H
