@@ -50,5 +50,4 @@ sc_result search_incident_vertex_arc(sc_addr graph, sc_addr vertex, sc_addr_list
  */
 sc_result sc_graph_find_min_path(sc_addr graph, sc_addr begVertex, sc_addr endVertex, sc_addr_list **path);
 
->>>>>>> 7de27da92eef4d4a50d94604b0c873e77da5344f
 #endif // SC_GRAPH_FIND_CONN_COMP_H
